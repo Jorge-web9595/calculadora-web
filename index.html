@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora Web - Lógica de Excel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1em;
+      width: 100%;
+      margin-top: 10px;
+    }
+    h2 {
+      margin-bottom: 5px;
+    }
+    .output {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Calculadora basada en Excel</h2>
+
+  <label for="kilosRef">C1 - Kilos de referencia:</label>
+  <input type="number" id="kilosRef" value="50">
+
+  <label for="posRef">C2 - Posición de referencia:</label>
+  <input type="number" id="posRef" value="14">
+
+  <label for="kilosBuscado">C3 - Kilos buscado:</label>
+  <input type="number" id="kilosBuscado" value="10">
+
+  <button onclick="calcular()">Calcular</button>
+
+  <div class="output" id="resultado"></div>
+
+  <script>
+    function calcular() {
+      // Entradas del usuario (C1, C2, C3)
+      const C1 = parseFloat(document.getElementById("kilosRef").value);
+      const C2 = parseFloat(document.getElementById("posRef").value);
+      const C3 = parseFloat(document.getElementById("kilosBuscado").value);
+
+      // Constantes fijas
+      const B6 = 21;            // Máximo posición
+      const B7 = 1;             // Mínimo posición
+      const B8 = 87.9953;       // a
+      const B9 = -0.9577;       // b
+
+      if (C1 <= 0 || C2 <= 0 || C3 <= 0) {
+        document.getElementById("resultado").innerText = "Todos los valores deben ser mayores que cero.";
+        return;
+      }
+
+      // C4 = a * POTENCIA(C2, b)
+      const C4 = B8 * Math.pow(C2, B9);
+
+      // C5 = (C3 / (C1 * C4)) * 100
+      const C5 = (C3 / (C1 * C4)) * 100;
+
+      // C6 = (B6 * (C1 * C4)) / 100
+      const C6 = (B6 * (C1 * C4)) / 100;
+
+      // C7 = (B7 * (C1 * C4)) / 100
+      const C7 = (B7 * (C1 * C4)) / 100;
+
+      // Mostrar resultados
+      document.getElementById("resultado").innerHTML = `
+        <strong>Relación (C4):</strong> ${C4.toFixed(6)}<br>
+        <strong>Posición a buscar (C5):</strong> ${C5.toFixed(2)}<br>
+        <strong>Máximo (C6):</strong> ${C6.toFixed(6)}<br>
+        <strong>Mínimo (C7):</strong> ${C7.toFixed(6)}<br>
+      `;
+    }
+  </script>
+
+</body>
+</html>
